@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Eine Nachricht senden</title>
+<script type="text/javascript">
+	function sendPost() {
+		var value = {
+			"sender" : document.getElementById("vorname").value,
+			"title" : document.getElementById("titel").value,
+			"message" : document.getElementById("message").value
+		};
+		var url = "http://cloud-test.sic-cloudtest.cloudbees.net/rest/json/post";
+		var client = new XMLHttpRequest();
+		client.open("POST", url, false);
+		client.setRequestHeader("Content-Type",
+				"application/json; charset=utf-8");
+		client.setRequestHeader('Content-Length', value.length);
+		client.send(JSON.stringify(value));
+	}
+
+	function createTable(posts) {
+		var root = document.getElementById('overview');
+
+		var tab = document.createElement('table');
+		var tbo = document.createElement('tbody');
+		var row, cell;
+		for ( var i = 0; i < posts.post.length; i++) {
+			row = document.createElement('tr');
+			cell1 = document.createElement('td');
+			cell1.appendChild(document.createTextNode(posts.post[i].sender))
+			row.appendChild(cell1);
+
+			cell2 = document.createElement('td');
+			cell2.appendChild(document.createTextNode(posts.post[i].title))
+			row.appendChild(cell2);
+
+			cell3 = document.createElement('td');
+			cell3.appendChild(document.createTextNode(posts.post[i].message))
+			row.appendChild(cell3);
+			tbo.appendChild(row);
+		}
+		tab.appendChild(tbo);
+		root.appendChild(tab);
+	}
+
+	function getAllPosts() {
+		var url = "http://cloud-test.sic-cloudtest.cloudbees.net/rest/json/get";
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open("GET", url, false);
+		xmlHttp.send(null);
+		createTable(eval("(" + xmlHttp.responseText + ")"));
+	}
+</script>
+</head>
+<body>
+	<form name="refreshformular" action="" onsubmit="">
+		<p>
+			<input type="button" value="Refresh" onclick="getAllPosts()">
+		</p>
+	</form>
+	<div id="overview"></div>
+
+	<form name="formular" action="" onsubmit="sendPost()">
+		<p>
+			<b>Nachricht senden</b>
+		</p>
+		<p>
+			<label for="vorname">Name:</label> <input type="text" name="name"
+				id="vorname" size="25">
+		</p>
+		<p>
+			<label for="titel">Titel:</label> <input type="text" name="title"
+				id="titel" size="25">
+		</p>
+		<p>
+			<label for="message">Nachricht:</label>
+			<textarea id="message" name="message" cols="120" rows="4" wrap="soft">
+	</textarea>
+		</p>
+		<p>
+			<input type="submit" value="Senden">
+		</p>
+	</form>
+
+</body>
+</html>
