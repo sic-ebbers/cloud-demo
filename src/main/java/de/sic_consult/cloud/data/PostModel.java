@@ -17,6 +17,10 @@ public class PostModel {
 		posts.add(post);
 	}
 	
+	public synchronized void clear() {
+		posts.clear();
+	}
+	
 	public synchronized List<Post> getAll() {
 		return posts;
 	}
