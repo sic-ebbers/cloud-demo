@@ -15,6 +15,10 @@ public class Post implements Serializable {
 	
 	private String message;
 
+	public Post() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getSender() {
 		return sender;
 	}
