@@ -28,11 +28,11 @@ public class Post implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return title.toUpperCase();
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = title.toUpperCase();
 	}
 
 	public String getMessage() {
